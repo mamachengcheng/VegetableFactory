@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="./css/chinese.css">
+	<link rel="stylesheet" type="text/css" href="./css/lib/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="./css/lib/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="./css/lib/bootstrap-datetimepicker.css">
+    <link rel="stylesheet" type="text/css" href="./css/lib/bootstrap-datetimepicker.min.css">
+	<link rel="stylesheet" type="text/css" href="./css/admin.main.css">
+</head>
+<body>
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container-fluid">
+				 <div id="navbar" class="navbar-collapse collapse">
+		          	<ul class="nav navbar-nav navbar-right">
+		            	<li><a href="index.html">首页</a></li>
+		            	<li><a href="admin.html">智能控制台</a></li>
+		           	 	<li><a href="register.html">登录 | 注册</a></li>
+		          	</ul>
+		        </div>
+		</div>
+	</nav>
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-3 sidebar">
+				<ul class="nav nav-sidebar">
+					<li><a href="admin.html">实时监控</a></li>
+					<li><a href="manage.html">远程控制</a></li>
+					<li><a href="historydata.html">历史记录</a></li>
+				</ul>
+
+				<ul class="nav nav-sidebar">
+					<li class="active"><a href="#">用户管理</a></li>
+					<li><a href="historysitting.html">操作日志</a></li>
+				</ul>
+			</div>
+			<div style="padding-left: 20px; padding-right: 20px;">
+				<div class="col-md-3 col-md-offset-6">
+					<div style="font-size: 150px;">
+						<span class="glyphicon glyphicon-user"></span>
+					</div>
+				</div>
+				<div class="panel panel-default col-md-9 col-md-offset-3">
+					<div class="panel-body">
+						<table class="table table-bordered table-hover">
+							<tbody>
+								<tr>
+									<td>用户名</td>
+									<td>马承成</td>
+								</tr>
+								<tr>
+									<td>邮箱</td>
+									<td>616254086@qq.com</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	<div>
+
+
+	<script src="./js/lib/jquery-3.1.1.min.js" type="text/javascript"></script>
+	<script src="./js/lib/bootstrap.min.js"></script>
+	<script src="./js/lib/bootstrap-datetimepicker.js" type="text/javascript" charset="UTF-8"></script>
+	<script src="./js/lib/bootstrap-datetimepicker.min.js" type="text/javascript" charset="UTF-8"></script>
+	<script src="./js/lib/bootstrap-datetimepicker.zh-CN.js" type="text/javascript" charset="UTF-8"></script>
+	<script src="./js/LineChart.js" type="text/javascript"></script>
+	<script type="text/javascript">
+
+	$('.form_date').datetimepicker({
+        language:  'zh-CN',
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		minView: 2,
+		forceParse: 0
+    });          
+	</script>
+</body>
+</html>
