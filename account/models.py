@@ -23,3 +23,9 @@ class DeviceControl(models.Model):
     control_type = models.IntegerField("控制类型", choices=CONTROL_TYPE_CHOICE)
     control_name = models.CharField("控制方法名", max_length=30)
     control_code = models.CharField("控制代码", max_length=30)
+    control_deviceName = models.CharField("设备名称", max_length=20)
+
+
+class Img(models.Model):
+    img = models.ImageField(default="./2706179_185025082_2.jpg")
+

@@ -5,9 +5,10 @@ from rest_framework.response import Response
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.six import BytesIO
 from rest_framework.parsers import JSONParser
-from control import Control
+import send
 from .models import DeviceControl
-from .CRC16 import calcString
+from statistics.models import SittingHistory
+import CRC16
 
 # Create your views here.
 def indexPage(request):
@@ -29,9 +30,9 @@ def signUpPage(request):
 def controlPage(request):
     return render(request, "src/app/account/control.html")
 
+def historyDataPage(request):
+    return render(request, "src/app/account/historydata.html")
 
-def test(request):
-    return render(request, "src/test.html")
 
 
 # def t(request):
@@ -41,48 +42,44 @@ def test(request):
 
 class controlAPIView(APIView):
 
-    @csrf_exempt
-    def post(self, request):
-        # print request.POST
-        # data = request.POST['light']
-        # code = '01 05 0001 FF00'
-        # control_light = Control().control()
-        # print type(request.POST)
-        # stream = BytesIO(request.POST)
-        # data = JSONParser().parse(stream)
-        # print type(data)
-        # print stream
-        # print type(request.)
-        print request.POST.lists()
-        print request.POST.get('redState')
-        # print request.POST['light']
-        # return type(request.POST.lists())
-        # print request.POST['light']
-        # print "\n"
-        # print request.POST.dict
-        return HttpResponse("hah")
-
     def get(self, request):
         diviceNum = request.GET["diviceNum"]
-        # diviceType = request.GET["diviceType"]
+        controlType = request.GET["controlType"]
         diviceState = request.GET["diviceState"]
+        controlObject = ""
 
-        if diviceState == "true":
-            diviceState = 1
+        if controlType == '0':
+            if diviceState == "true":
+                diviceState = 1
+            else:
+                diviceState = 0
+
+            controlObject = DeviceControl.objects.filter(control_num=diviceNum).filter(control_statue=diviceState).get()
+
+            code = controlObject.control_code
         else:
-            diviceState = 0
+            diviceState = int(str(diviceState))
+            if diviceState >= 16 and diviceState <= 100:
+                state_code = ' 00 ' + str(hex(diviceState))[2:4].upper()
+                controlObject =DeviceControl.objects.filter(control_type=controlType).filter(control_num=diviceNum).get()
+                code = controlObject.control_code + state_code
 
-        controlObject = DeviceControl.objects.filter(control_num=diviceNum).filter(control_statue=diviceState)
-        # controlWay = Control().control(controlObject[0].control_code)
-        print(controlObject[0].control_code)
-        print type(controlObject[0].control_code)
-        print repr(controlObject[0].control_code)
-        print type(repr(controlObject[0].control_code))
+            elif diviceState >= 0 and diviceState < 16:
+                state_code = ' 00 0' + str(hex(diviceState))[2:3].upper()
+                controlObject =DeviceControl.objects.filter(control_type=controlType).filter(control_num=diviceNum).get()
+                code = controlObject.control_code + state_code
 
-        INITIAL_MODBUS = 0xFFFF
-
-        print len(repr(controlObject[0].control_code))
-        print hex(calcString(repr(controlObject[0].control_code), INITIAL_MODBUS))
-        # print diviceNum
-        # print diviceState
+        send.control(code)
+        sittingHistory = SittingHistory()
+        sittingHistory.deviceName = controlObject.control_deviceName
+        sittingHistory.sittingContent = controlObject.control_name
+        sittingHistory.save()
+        print code
         return HttpResponse('get')
+
+# class ajaxAPIView(APIView):
+#
+#     def get(self, request):
+#         val = request.GET["val"]
+#         print "ajax"+val
+#         return HttpResponse("ajax"+val)
